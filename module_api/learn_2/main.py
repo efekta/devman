@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 url_info_bitlink = 'https://api-ssl.bitly.com/v4/bitlinks/'
-token = os.getenv("TOKEN")
-headers = {'Authorization': token}
+TOKEN = os.getenv("TOKEN")
+headers = {'Authorization': f'Bearer {TOKEN}'}
 domain_bitlink = 'bit.ly'
 
 def main_func():
@@ -41,12 +41,12 @@ def main_func():
 
     try:
         if flag:
-            info_count_clicks = count_clicks(token, user_input_link)
+            info_count_clicks = count_clicks(TOKEN, user_input_link)
             print(info_count_clicks)
-            info_is_bitlink = is_bitlink(token, user_input_link)
+            info_is_bitlink = is_bitlink(TOKEN, user_input_link)
             print(info_is_bitlink)
         else:
-            bitlink = shorten_link(token, user_input_link)
+            bitlink = shorten_link(TOKEN, user_input_link)
             print(bitlink)
     except requests.exceptions.HTTPError:
         print('Вы ввели ссылку некорректно!')
