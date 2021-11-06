@@ -6,12 +6,13 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 load_dotenv()
 
+url_info_bitlink = 'https://api-ssl.bitly.com/v4/bitlinks/'
+token = os.getenv("TOKEN")
+headers = {'Authorization': token}
+domain_bitlink = 'bit.ly'
+
 def main_func():
     user_input_link = input('Введите ссылку: ')
-    url_info_bitlink = 'https://api-ssl.bitly.com/v4/bitlinks/'
-    token = os.getenv("TOKEN")
-    headers = {'Authorization': token}
-    domain_bitlink = 'bit.ly'
     parse_link = urlparse(user_input_link)
     domain = parse_link.netloc
     url_path = parse_link.path
