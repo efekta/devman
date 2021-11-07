@@ -4,14 +4,15 @@ import json
 from pip import main
 from urllib.parse import urlparse
 from dotenv import load_dotenv
-load_dotenv()
+from dotenv import dotenv_values
 
 url_info_bitlink = 'https://api-ssl.bitly.com/v4/bitlinks/'
-TOKEN = os.getenv("TOKEN")
-headers = {'Authorization': f'Bearer {TOKEN}'}
 domain_bitlink = 'bit.ly'
 
 def main_func():
+    load_dotenv()
+    TOKEN = os.getenv("TOKEN")
+    headers = {'Authorization': f'Bearer {TOKEN}'}
     user_input_link = input('Введите ссылку: ')
     parse_link = urlparse(user_input_link)
     domain = parse_link.netloc
