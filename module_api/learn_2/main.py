@@ -1,7 +1,5 @@
 import os
 import requests
-import json
-from pip import main
 from urllib.parse import urlparse
 from dotenv import load_dotenv
 
