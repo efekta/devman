@@ -10,7 +10,6 @@ url_info_bitlink = 'https://api-ssl.bitly.com/v4/bitlinks/'
 domain_bitlink = 'bit.ly'
 
 def main_func():
-    load_dotenv()
     TOKEN = os.getenv("TOKEN")
     headers = {'Authorization': f'Bearer {TOKEN}'}
     user_input_link = input('Введите ссылку: ')
@@ -54,6 +53,7 @@ def main_func():
 
 
 if __name__ == '__main__':
+    load_dotenv()
     main_func()
 
 
