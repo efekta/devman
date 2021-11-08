@@ -28,8 +28,8 @@ def count_clicks(token, url):
 def is_bitlink(token, url):
     url_is_bitlink_concat = f'{URL_INFO_BITLINK}{domain}{url_path}'
     response_is_bitlink = requests.get(url_is_bitlink_concat, headers=headers)
-    response_is_bitlink_answer = response_is_bitlink.ok
-    return response_is_bitlink_answer
+    is_bitlink_answer = response_is_bitlink.ok
+    return is_bitlink_answer
 
 def main_func():
     try:
