@@ -14,7 +14,7 @@ def shorten_link(headers, user_input_link):
     return short_link
 
 def count_clicks(headers, domain, url_path):
-    url_count_clicks_concat = f'{URL_INFO_BITLINK}{domain}{url_path}/clicks'
+    url_count_clicks_concat = f'{URL_INFO_BITLINK}{domain}{url_path}/clicks/summary'
     response_clicks = requests.get(url_count_clicks_concat, headers=headers)
     response_clicks.raise_for_status()
     response_clicks_answer = response_clicks.json()
