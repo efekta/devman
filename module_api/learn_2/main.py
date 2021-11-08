@@ -35,9 +35,9 @@ def main():
     domain = parse_link.netloc
     url_path = parse_link.path
     try:
-        info_is_bitlink = is_bitlink(headers, domain, url_path)
+        # info_is_bitlink = is_bitlink(headers, domain, url_path)
 
-        if info_is_bitlink:
+        if is_bitlink(headers, domain, url_path):
             info_count_clicks = count_clicks(headers, domain, url_path)
             print(info_count_clicks)
         else:
