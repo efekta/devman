@@ -34,7 +34,6 @@ def is_bitlink(token, url):
 def main_func():
     try:
         info_is_bitlink = is_bitlink(token, user_input_link)
-        print(info_is_bitlink)
 
         if info_is_bitlink:
             info_count_clicks = count_clicks(token, user_input_link)
