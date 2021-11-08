@@ -10,7 +10,6 @@ user_input_link = input('Введите ссылку: ')
 parse_link = urlparse(user_input_link)
 domain = parse_link.netloc
 url_path = parse_link.path
-flag = DOMAIN_BITLINK == domain
 
 def shorten_link(token, url):
     response = requests.post(URL_INFO_BITLINK, headers=headers, json={'long_url': user_input_link})
@@ -36,12 +35,14 @@ def main_func():
     try:
         info_is_bitlink = is_bitlink(token, user_input_link)
         print(info_is_bitlink)
-        if flag:
+
+        if info_is_bitlink:
             info_count_clicks = count_clicks(token, user_input_link)
             print(info_count_clicks)
         else:
             bitlink = shorten_link(token, user_input_link)
             print(bitlink)
+
     except requests.exceptions.HTTPError:
         print('Вы ввели ссылку некорректно!')
 
