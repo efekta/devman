@@ -37,8 +37,8 @@ def main():
 
     try:
         if is_bitlink(headers, domain, url_path):
-            info_count_clicks = count_clicks(headers, domain, url_path)
-            print(info_count_clicks)
+            total_clicks = count_clicks(headers, domain, url_path)
+            print(total_clicks['total_clicks'])
         else:
             bitlink = shorten_link(headers, user_input_link)
             print(bitlink)
