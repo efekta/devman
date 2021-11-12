@@ -7,22 +7,18 @@ from dotenv import load_dotenv
 URL_INFO_BITLINK = 'https://api-ssl.bitly.com/v4/bitlinks/'
 DOMAIN_BITLINK = 'bit.ly'
 
-parser = argparse.ArgumentParser(description='Описание программы')
-parser.add_argument('link', type=str, help='Bitlink')
-args = parser.parse_args()
-
-def shorten_link(token, args):
+def shorten_link(token, args_link):
     headers = {'Authorization': f'Bearer {token}'}
-    parse_link = urlparse(args.link)
-    response = requests.post(URL_INFO_BITLINK, headers=headers, json={'long_url': args.link})
+    parse_link = urlparse(args_link)
+    response = requests.post(URL_INFO_BITLINK, headers=headers, json={'long_url': args_link})
     response.raise_for_status()
     answer = response.json()
     short_link = answer['link']
     return short_link
 
-def count_clicks(token, args):
+def count_clicks(token, args_link):
     headers = {'Authorization': f'Bearer {token}'}
-    parse_link = urlparse(args.link)
+    parse_link = urlparse(args_link)
     domain = parse_link.netloc
     url_path = parse_link.path
     url_count_clicks_concat = f'{URL_INFO_BITLINK}{domain}{url_path}/clicks/summary'
@@ -31,9 +27,9 @@ def count_clicks(token, args):
     response_clicks_answer = response_clicks.json()
     return response_clicks_answer
 
-def is_bitlink(token, args):
+def is_bitlink(token, args_link):
     headers = {'Authorization': f'Bearer {token}'}
-    parse_link = urlparse(args.link)
+    parse_link = urlparse(args_link)
     domain = parse_link.netloc
     url_path = parse_link.path
     url_is_bitlink_concat = f'{URL_INFO_BITLINK}{domain}{url_path}'
@@ -44,13 +40,16 @@ def is_bitlink(token, args):
 def main():
     load_dotenv()
     token = os.getenv("BITLINK_TOKEN")
-
+    parser = argparse.ArgumentParser(description='Описание программы')
+    parser.add_argument('link', type=str, help='Bitlink')
+    args = parser.parse_args()
+    args_link = args.link
     try:
-        if is_bitlink(token, args):
-            total_clicks = count_clicks(token, args)
+        if is_bitlink(token, args_link):
+            total_clicks = count_clicks(token, args_link)
             print('Количество переходов по ссылке битли: ', total_clicks['total_clicks'])
         else:
-            bitlink = shorten_link(token, args)
+            bitlink = shorten_link(token, args_link)
             print(bitlink)
 
     except requests.exceptions.HTTPError:
