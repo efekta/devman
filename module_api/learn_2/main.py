@@ -5,11 +5,9 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 URL_INFO_BITLINK = 'https://api-ssl.bitly.com/v4/bitlinks/'
-DOMAIN_BITLINK = 'bit.ly'
 
 def shorten_link(token, args_link):
     headers = {'Authorization': f'Bearer {token}'}
-    parse_link = urlparse(args_link)
     response = requests.post(URL_INFO_BITLINK, headers=headers, json={'long_url': args_link})
     response.raise_for_status()
     answer = response.json()
