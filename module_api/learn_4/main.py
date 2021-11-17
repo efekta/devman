@@ -1,9 +1,14 @@
 import requests
 from pathlib import Path
 
-url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
-img_file = 'hubble.jpeg'
+url = 'https://api.spacexdata.com/v4/launches'
 
+response = requests.get(url)
+response.raise_for_status()
+response = response.json()
+print(response)
+
+img_file = 'hubble.jpeg'
 path = Path('images').mkdir(parents=True, exist_ok=True)
 
 def upload_img(url, path):
@@ -15,7 +20,7 @@ def upload_img(url, path):
         img = file
     return img
 
-upload_img(url, path)
+
 
 
 
