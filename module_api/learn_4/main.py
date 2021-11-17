@@ -6,7 +6,6 @@ url = 'https://api.spacexdata.com/v4/launches'
 Path('images').mkdir(parents=True, exist_ok=True)
 img_file = 'hubble.jpeg'
 path = f'images/{img_file}'
-print(path)
 
 def upload_img(url, path):
     response = requests.get(url)
