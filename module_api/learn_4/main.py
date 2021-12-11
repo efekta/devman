@@ -1,7 +1,11 @@
+from os.path import splitdrive
+from urllib.parse import urlsplit
+
 import requests
+from urllib import parse
 import os
+import os.path
 from pathlib import Path
-from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 Path('images').mkdir(parents=True, exist_ok=True)
@@ -26,10 +30,17 @@ def fetch_spacex_last_launch(url_spacex, path_img):
         with open(f'{path_img}{image_name}', 'wb') as file:
             file.write(response_spacex.content)
 
-fetch_spacex_last_launch(url_spacex, path_img)
+# fetch_spacex_last_launch(url_spacex, path_img)
 
 
 
+def extension_file(link):
+    extension_link = urlsplit(link)
+    url_path = extension_link.path
+    extension_file = os.path.splitext(url_path)[-1]
+    print(extension_file)
+    return extension_file
 
+extension_file('https://example.com/txt/hello%20world.txt?v=9#python')
 
 
