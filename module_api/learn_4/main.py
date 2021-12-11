@@ -37,9 +37,8 @@ def fetch_spacex_last_launch(url_spacex, path_img):
 def extension_file(link):
     extension_link = urlsplit(link)
     url_path = extension_link.path
-    extension_file = os.path.splitext(url_path)[-1]
-    print(extension_file)
-    return extension_file
+    extension_link = os.path.splitext(url_path)[-1]
+    return extension_link
 
 extension_file('https://example.com/txt/hello%20world.txt?v=9#python')
 
