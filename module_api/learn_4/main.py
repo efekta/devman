@@ -1,28 +1,32 @@
 import requests
+import os
 from pathlib import Path
-
-url = 'https://api.spacexdata.com/v4/launches'
+from urllib.parse import urlparse
+from dotenv import load_dotenv
 
 Path('images').mkdir(parents=True, exist_ok=True)
-img_file = 'hubble.jpeg'
-path = f'images/{img_file}'
-item_links = []
+path_img = 'images/'
+url_spacex = 'https://api.spacexdata.com/v4/rockets'
+spacex_list_links = []
 
-def upload_img(url):
-    response = requests.get(url)
-    response.raise_for_status()
-    response = response.json()
-    for item in response:
-        link_item = item['links']
-        item_links.append(link_item['patch'])
+def fetch_spacex_last_launch(url_spacex, path_img):
+    response_spacex = requests.get(url_spacex)
+    response_spacex.raise_for_status()
+    response_spacex_list = response_spacex.json()
 
-    # with open(path, 'wb') as file:
-    #     file.write(response.content)
-    #     img = file
-    # return img
+    for item in response_spacex_list:
+        item_link = item['flickr_images']
+        for link in item_link:
+            spacex_list_links.append(link)
 
-upload_img(url)
-print(item_links)
+    for link_number, link in enumerate(spacex_list_links):
+        image_name = f'spacex{link_number}.jpg'
+        response_spacex = requests.get(link)
+        response_spacex.raise_for_status()
+        with open(f'{path_img}{image_name}', 'wb') as file:
+            file.write(response_spacex.content)
+
+fetch_spacex_last_launch(url_spacex, path_img)
 
 
 
