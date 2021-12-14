@@ -9,14 +9,18 @@ load_dotenv()
 
 nasa_token = os.getenv('NASA_TOKEN')
 tg_token = os.getenv('TG_TOKEN')
-
+tg_chat_id = 273352787
 bot = telegram.Bot(token=f'{tg_token}')
 print(bot.get_me())
 
 updates = bot.get_updates()
 print(updates[0])
 
-bot.send_message(text='Hi Bot!', chat_id=273352787)
+bot.send_message(text='Hi Bot!', chat_id=tg_chat_id)
+bot.send_message(chat_id=tg_chat_id, text="I'm sorry Dave I'm afraid I can't do that.")
+# update.message.reply_text("I'm sorry Dave I'm afraid I can't do that.")
+
+
 
 Path('images').mkdir(parents=True, exist_ok=True)
 spacex_list_links = []
