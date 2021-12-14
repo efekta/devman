@@ -42,13 +42,15 @@ def upload_image_nasa(url_nasa_epic):
         # print(now_date)
         image_name = item['image']
         # print(image_name)
-        format_url = f'https://api.nasa.gov/EPIC/archive/natural/{now_date}/png/{image_name}.png?api_key={nasa_token}&count={count}'
+        format_url = f'https://api.nasa.gov/EPIC/archive/natural/' \
+                     f'{now_date}/png/{image_name}.png?' \
+                     f'api_key={nasa_token}&count={count}'
         # print(format_url)
         epic_nasa_list_links.append(format_url)
 
     for epic_link_number, epic_link in enumerate(epic_nasa_list_links):
         # print(epic_link)
-        image_name = f'nasa{epic_link_number}.jpg'
+        image_name = f'nasa_epic{epic_link_number}.png'
         response_nasa = requests.get(epic_link)
         response_nasa.raise_for_status()
         with open(f'{path_img}{image_name}', 'wb') as file:
