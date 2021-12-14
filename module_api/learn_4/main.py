@@ -1,34 +1,76 @@
-from os.path import splitdrive
 from urllib.parse import urlsplit
-
 import requests
-from urllib import parse
-import os
 import os.path
 from pathlib import Path
+from datetime import datetime
+
 from dotenv import load_dotenv
 load_dotenv()
 nasa_token = os.getenv('NASA_TOKEN')
 
 Path('images').mkdir(parents=True, exist_ok=True)
-path_img = 'images/'
-url_spacex = 'https://api.spacexdata.com/v4/rockets'
-url_nasa = f'https://api.nasa.gov/planetary/apod?api_key={nasa_token}&count=50'
-file_name = 'hubble.jpeg'
 spacex_list_links = []
 nasa_list_links = []
-count = 50
+epic_nasa_list_links = []
+count = 10
+path_img = 'images/'
+file_name = 'hundle.jpg'
+url_spacex = 'https://api.spacexdata.com/v4/rockets'
+url_nasa = f'https://api.nasa.gov/planetary/apod?api_key={nasa_token}&count={count}'
+url_nasa_epic = f'https://api.nasa.gov/EPIC/api/natural?api_key={nasa_token}'
+
+def upload_img(url, path_img):
+    response = requests.get(url)
+    response.raise_for_status()
+
+    with open(f'{path_img}{file_name}', 'wb') as file:
+        file.write(response.content)
+
+# upload_img('https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg', path_img)
+
+def upload_image_nasa(url_nasa_epic):
+    response_nasa_epic = requests.get(url_nasa_epic)
+    response_nasa_epic.raise_for_status()
+    response_nasa_epic_list = response_nasa_epic.json()
+
+    for item in response_nasa_epic_list:
+        # print(item)
+        date_item = item['date']
+        date_time = datetime.fromisoformat(date_item)
+        date = date_time.date()
+        now_date = date.strftime("%Y/%m/%d")
+        # print(now_date)
+        image_name = item['image']
+        # print(image_name)
+        format_url = f'https://api.nasa.gov/EPIC/archive/natural/{now_date}/png/{image_name}.png?api_key={nasa_token}&count={count}'
+        # print(format_url)
+        epic_nasa_list_links.append(format_url)
+
+    for epic_link_number, epic_link in enumerate(epic_nasa_list_links):
+        # print(epic_link)
+        image_name = f'nasa{epic_link_number}.jpg'
+        response_nasa = requests.get(epic_link)
+        response_nasa.raise_for_status()
+        with open(f'{path_img}{image_name}', 'wb') as file:
+            file.write(response_nasa.content)
+
+upload_image_nasa(url_nasa_epic)
 
 def upload_image_nasa(url_nasa):
     response_nasa = requests.get(url_nasa)
     response_nasa.raise_for_status()
     response_nasa_list = response_nasa.json()
-    for link_num, link in enumerate(response_nasa_list):
+    for link in response_nasa_list:
         link = link['url']
-        # print(link_num, link)
         nasa_list_links.append(link)
+    for link_number, link in enumerate(nasa_list_links):
+        image_name = f'nasa{link_number}.jpg'
+        response_nasa = requests.get(link)
+        response_nasa.raise_for_status()
+        with open(f'{path_img}{image_name}', 'wb') as file:
+            file.write(response_nasa.content)
 
-upload_image_nasa(url_nasa)
+# upload_image_nasa(url_nasa)
 
 def fetch_spacex_last_launch(url_spacex, path_img):
     response_spacex = requests.get(url_spacex)
@@ -59,11 +101,3 @@ def extension_file(link):
 
 # print(nasa_token)
 
-def upload_img(url, path_img):
-    response = requests.get(url)
-    response.raise_for_status()
-
-    with open(f'{path_img}{file_name}', 'wb') as file:
-        file.write(response.content)
-
-# upload_img('https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg', path_img)
