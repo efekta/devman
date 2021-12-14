@@ -1,22 +1,25 @@
 from urllib.parse import urlsplit
 import requests
 import os.path
-from pathlib import Path
+# from pathlib import Path
 from datetime import datetime
 import telegram
 from os import listdir
 from dotenv import load_dotenv
-from time import sleep
+import time
 load_dotenv()
+
+sleep_time_test = 60
+sleep_time = 86400
 
 nasa_token = os.getenv('NASA_TOKEN')
 tg_token = os.getenv('TG_TOKEN')
 tg_chat_id = 273352787
 bot = telegram.Bot(token=f'{tg_token}')
-print(bot.get_me())
+# print(bot.get_me())
 
 updates = bot.get_updates()
-print(updates[0])
+# print(updates[0])
 photos_list = listdir('images')
 # bot.send_message(text='Hi Bot!', chat_id=tg_chat_id)
 # bot.send_message(chat_id=tg_chat_id, text="I'm sorry Dave I'm afraid I can't do that.")
@@ -25,14 +28,15 @@ photos_list = listdir('images')
 # photos_list[0]
 
 # print([u.message.photo for u in updates if u.message.photo])
-print(photos_list)
-img = open(f'images/{photos_list[0]}', 'rb')
-print(img)
 
-bot.send_photo(chat_id=tg_chat_id, photo=open(f'images/{photos_list[0]}', 'rb'))
+while True:
+    for picture_item in photos_list:
+        bot.send_photo(chat_id=tg_chat_id, photo=open(f'images/{picture_item}', 'rb'))
+        time.sleep(sleep_time_test)
 
 
 Path('images').mkdir(parents=True, exist_ok=True)
+
 spacex_list_links = []
 nasa_list_links = []
 epic_nasa_list_links = []
@@ -125,5 +129,4 @@ def extension_file(link):
 
 # extension_file('https://example.com/txt/hello%20world.txt?v=9#python')
 
-# print(nasa_token)
 
