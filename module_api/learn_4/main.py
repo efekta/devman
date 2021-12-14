@@ -4,7 +4,9 @@ import os.path
 from pathlib import Path
 from datetime import datetime
 import telegram
+from os import listdir
 from dotenv import load_dotenv
+from time import sleep
 load_dotenv()
 
 nasa_token = os.getenv('NASA_TOKEN')
@@ -15,11 +17,19 @@ print(bot.get_me())
 
 updates = bot.get_updates()
 print(updates[0])
-
-bot.send_message(text='Hi Bot!', chat_id=tg_chat_id)
-bot.send_message(chat_id=tg_chat_id, text="I'm sorry Dave I'm afraid I can't do that.")
+photos_list = listdir('images')
+# bot.send_message(text='Hi Bot!', chat_id=tg_chat_id)
+# bot.send_message(chat_id=tg_chat_id, text="I'm sorry Dave I'm afraid I can't do that.")
 # update.message.reply_text("I'm sorry Dave I'm afraid I can't do that.")
 
+# photos_list[0]
+
+# print([u.message.photo for u in updates if u.message.photo])
+print(photos_list)
+img = open(f'images/{photos_list[0]}', 'rb')
+print(img)
+
+bot.send_photo(chat_id=tg_chat_id, photo=open(f'images/{photos_list[0]}', 'rb'))
 
 
 Path('images').mkdir(parents=True, exist_ok=True)
