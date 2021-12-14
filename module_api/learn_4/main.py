@@ -1,41 +1,23 @@
 from urllib.parse import urlsplit
 import requests
 import os.path
-# from pathlib import Path
+from pathlib import Path
 from datetime import datetime
 import telegram
 from os import listdir
 from dotenv import load_dotenv
 import time
-load_dotenv()
-
-sleep_time_test = 60
-sleep_time = 86400
-
-nasa_token = os.getenv('NASA_TOKEN')
-tg_token = os.getenv('TG_TOKEN')
-tg_chat_id = 273352787
-bot = telegram.Bot(token=f'{tg_token}')
-# print(bot.get_me())
-
-updates = bot.get_updates()
-# print(updates[0])
-photos_list = listdir('images')
-# bot.send_message(text='Hi Bot!', chat_id=tg_chat_id)
-# bot.send_message(chat_id=tg_chat_id, text="I'm sorry Dave I'm afraid I can't do that.")
-# update.message.reply_text("I'm sorry Dave I'm afraid I can't do that.")
-
-# photos_list[0]
-
-# print([u.message.photo for u in updates if u.message.photo])
-
-while True:
-    for picture_item in photos_list:
-        bot.send_photo(chat_id=tg_chat_id, photo=open(f'images/{picture_item}', 'rb'))
-        time.sleep(sleep_time_test)
-
+import random
 
 Path('images').mkdir(parents=True, exist_ok=True)
+
+load_dotenv()
+nasa_token = os.getenv('NASA_TOKEN')
+tg_token = os.getenv('TG_TOKEN')
+tg_chat_id = os.getenv('TG_CHAT_ID')
+photo = 100
+sleep_time_test = 60
+sleep_time = 86400
 
 spacex_list_links = []
 nasa_list_links = []
@@ -46,6 +28,37 @@ file_name = 'hundle.jpg'
 url_spacex = 'https://api.spacexdata.com/v4/rockets'
 url_nasa = f'https://api.nasa.gov/planetary/apod?api_key={nasa_token}&count={count}'
 url_nasa_epic = f'https://api.nasa.gov/EPIC/api/natural?api_key={nasa_token}'
+
+def send_telegram(text: str):
+    photos_list = listdir('images')
+
+    url = "https://api.telegram.org/bot"
+    channel_id = "@uploadphotos"
+    url += tg_token
+    method = url + "/sendPhoto"
+    for picture_item in photos_list:
+
+        files = {'photo': open(f'images/{picture_item}', 'rb')}
+        r = requests.post(method, data={"chat_id": channel_id}, files=files)
+        time.sleep(sleep_time)
+
+        if r.status_code != 200:
+            raise Exception("post_text error")
+
+if __name__ == '__main__':
+  send_telegram(photo)
+
+
+
+
+# bot = telegram.Bot(token=f'{tg_token}')
+# updates = bot.get_updates()
+#
+# while True:
+#     for picture_item in photos_list:
+#         bot.send_photo(chat_id=tg_chat_id, photo=open(f'images/{picture_item}', 'rb'))
+#         time.sleep(sleep_time_test)
+
 
 def upload_img(url, path_img):
     response = requests.get(url)
@@ -130,3 +143,13 @@ def extension_file(link):
 # extension_file('https://example.com/txt/hello%20world.txt?v=9#python')
 
 
+# def main():
+#
+#
+#     try:
+#
+#
+#     except requests.exceptions.HTTPError:
+#
+# if __name__ == '__main__':
+#     main()
