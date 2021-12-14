@@ -3,10 +3,20 @@ import requests
 import os.path
 from pathlib import Path
 from datetime import datetime
-
+import telegram
 from dotenv import load_dotenv
 load_dotenv()
+
 nasa_token = os.getenv('NASA_TOKEN')
+tg_token = os.getenv('TG_TOKEN')
+
+bot = telegram.Bot(token=f'{tg_token}')
+print(bot.get_me())
+
+updates = bot.get_updates()
+print(updates[0])
+
+bot.send_message(text='Hi Bot!', chat_id=273352787)
 
 Path('images').mkdir(parents=True, exist_ok=True)
 spacex_list_links = []
@@ -56,7 +66,7 @@ def upload_image_nasa(url_nasa_epic):
         with open(f'{path_img}{image_name}', 'wb') as file:
             file.write(response_nasa.content)
 
-upload_image_nasa(url_nasa_epic)
+# upload_image_nasa(url_nasa_epic)
 
 def upload_image_nasa(url_nasa):
     response_nasa = requests.get(url_nasa)
