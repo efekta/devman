@@ -49,17 +49,6 @@ if __name__ == '__main__':
   send_telegram(photo)
 
 
-
-
-# bot = telegram.Bot(token=f'{tg_token}')
-# updates = bot.get_updates()
-#
-# while True:
-#     for picture_item in photos_list:
-#         bot.send_photo(chat_id=tg_chat_id, photo=open(f'images/{picture_item}', 'rb'))
-#         time.sleep(sleep_time_test)
-
-
 def upload_img(url, path_img):
     response = requests.get(url)
     response.raise_for_status()
