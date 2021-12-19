@@ -22,5 +22,3 @@ def fetch_spacex_last_launch(url_spacex, path_img):
         response_spacex.raise_for_status()
         with open(f'{path_img}{image_name}', 'wb') as file:
             file.write(response_spacex.content)
-
-fetch_spacex_last_launch(url_spacex, path_img)

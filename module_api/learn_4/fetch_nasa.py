@@ -3,7 +3,6 @@ import os.path
 from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
-import urllib.parse
 
 load_dotenv()
 nasa_token = os.getenv('NASA_TOKEN')
@@ -19,8 +18,7 @@ payload_nasa = {
 }
 
 payload_epic = {
-    'api_key': nasa_token,
-    'count': count
+    'api_key': nasa_token
 }
 
 def upload_image_epic(url_nasa_epic):
@@ -36,9 +34,8 @@ def upload_image_epic(url_nasa_epic):
         now_date = date.strftime("%Y/%m/%d")
         image_name = item['image']
         format_url = f'https://api.nasa.gov/EPIC/archive/natural/' \
-                     f'{now_date}/png/{image_name}.png?api_key={nasa_token}'
+                     f'{now_date}/png/{image_name}.png?'
         epic_nasa_links.append(format_url)
-
     for epic_link_number, epic_link in enumerate(epic_nasa_links):
         image_name = f'nasa_epic{epic_link_number}.png'
         response_nasa = requests.get(epic_link, params=payload_epic)
@@ -46,14 +43,17 @@ def upload_image_epic(url_nasa_epic):
         with open(f'{path_img}{image_name}', 'wb') as file:
             file.write(response_nasa.content)
 
+
 def upload_image_nasa(url_nasa):
     nasa_links = []
     response_nasa = requests.get(url_nasa, params=payload_nasa)
     response_nasa.raise_for_status()
     response_nasa_list = response_nasa.json()
+
     for link in response_nasa_list:
         link = link['url']
         nasa_links.append(link)
+
     for link_number, link in enumerate(nasa_links):
         image_name = f'nasa{link_number}.jpg'
         response_nasa = requests.get(link)
