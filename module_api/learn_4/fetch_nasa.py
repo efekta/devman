@@ -34,15 +34,16 @@ def upload_image_epic(url_nasa_epic):
         now_date = date.strftime("%Y/%m/%d")
         image_name = item['image']
         format_url = f'https://api.nasa.gov/EPIC/archive/natural/' \
-                     f'{now_date}/png/{image_name}.png?'
+                     f'{now_date}/png/{image_name}.png'
         epic_nasa_links.append(format_url)
+
     for epic_link_number, epic_link in enumerate(epic_nasa_links):
         image_name = f'nasa_epic{epic_link_number}.png'
         response_nasa = requests.get(epic_link, params=payload_epic)
         response_nasa.raise_for_status()
+
         with open(f'{path_img}{image_name}', 'wb') as file:
             file.write(response_nasa.content)
-
 
 def upload_image_nasa(url_nasa):
     nasa_links = []
