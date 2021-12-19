@@ -25,6 +25,7 @@
 
 - Что бы узнать свой ключ TG_CHAT_ID, используйте команды в консоли:
     ```
+    bot = telegram.Bot(token=f'{tg_token}')
     update = bot.get_updates()
     chat_id = bot.get_updates()[-1].message.chat_id
     ```
