@@ -1,4 +1,4 @@
-import send_telegram
+from send_telegram import send_telegram
 
 
 def main():

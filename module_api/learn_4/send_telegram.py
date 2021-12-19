@@ -4,6 +4,7 @@ from os import listdir
 from dotenv import load_dotenv
 import time
 import random
+import telegram
 
 load_dotenv()
 
@@ -11,6 +12,10 @@ tg_token = os.getenv('TG_TOKEN')
 tg_chat_id = os.getenv('TG_CHAT_ID')
 sleep_time_test = 10
 sleep_time = 86400
+
+bot = telegram.Bot(token=f'{tg_token}')
+update = bot.get_updates()
+chat_id = bot.get_updates()[-1].message.chat_id
 
 def send_telegram():
     while True:
