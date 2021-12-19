@@ -10,7 +10,7 @@ load_dotenv()
 tg_token = os.getenv('TG_TOKEN')
 tg_chat_id = os.getenv('TG_CHAT_ID')
 channel_id = os.getenv('CHANEL_ID')
-sleep_time_test = 10
+sleep_time_test = 5
 sleep_time = 86400
 
 def send_telegram():
@@ -23,6 +23,5 @@ def send_telegram():
             response = requests.post(url, data={'chat_id': channel_id}, files=files)
             time.sleep(sleep_time_test)
 
-        if response.ok:
+        if not response.ok:
             raise Exception('post_text error')
-
